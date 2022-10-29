@@ -21,7 +21,7 @@ amFWYXNDcmlwdDovKi0vKmAvKlxgLyonLyoiLyoqLygvKiAqL29uZXJyb3I9YWxlcnQoJ1RITScpICkv
 
 
 # Command Injection
-Use one of the following commands to test command injection
+Use one of the following commands to test command injection. Or you can use `Burp Suite Intruder` with this [payload](https://github.com/payloadbox/command-injection-payload-list).
 ### Blind
 `ping`
 
