@@ -18,3 +18,20 @@ amFWYXNDcmlwdDovKi0vKmAvKlxgLyonLyoiLyoqLygvKiAqL29uZXJyb3I9YWxlcnQoJ1RITScpICkv
 `sudo python3 -m http.server`
 
 `nc -lvp 4444`                 
+
+
+# Command Injection
+Use one of the following commands to test command injection
+### Blind
+`ping`
+
+`>` forcing some output && `cat`
+
+`curl` great way
+
+### Verbose
+#### Linux
+`whoami` || `ls` || `ping` || `sleep` ||  `nc`
+
+#### Windows
+`whoami` || `dir` || `ping` || `timeout`
