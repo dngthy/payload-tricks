@@ -102,4 +102,5 @@ Sample payload for bypassing CSRF Token. Access [this challenge](https://www.roo
 
                 // envoi du formulaire
                 document.csrf_form.submit();
-</script>```
+</script>
+```
